@@ -2,17 +2,13 @@ import { useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import Button from '@mui/material/Button';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
 import AddTodo from './AddTodo';
 import TodoItem from './TodoItem';
 
-const TodoList = () => {
+function TodoList() {
     const [todos, setTodos] = useState([
         { id: 0, task: 'do something', isDone: false },
         { id: 1, task: 'ekk', isDone: false },
@@ -22,15 +18,11 @@ const TodoList = () => {
      * Renders all the todos
      * @returns {JSX.Element} JSX element
      */
-    const renderTodos = () => {
-        return todos.map((todo) => {
-            return (
+    const renderTodos = () => todos.map((todo) => (
                 <ListItem key={todo.id}>
                     <TodoItem data={todo} onDataChanged={handleTodoChanged} />
                 </ListItem>
-            );
-        });
-    };
+            ));
 
     /**
      * Updates the todos when a todo has been changed
@@ -40,19 +32,16 @@ const TodoList = () => {
         const updatedTodos = todos.map((todo) => {
             if (todo.id === todoData.id) {
                 return todoData;
-            } else {
+            } 
                 return todo;
-            }
+            
         });
 
         setTodos(updatedTodos);
     };
 
     const handleNewTodo = (newTodoData) => {
-        const updatedTodos = [
-            ...todos,
-            newTodoData,
-        ];
+        const updatedTodos = [...todos, newTodoData];
 
         setTodos(updatedTodos);
     };
@@ -69,6 +58,6 @@ const TodoList = () => {
             </Grid>
         </Grid>
     );
-};
+}
 
 export default TodoList;
