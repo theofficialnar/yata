@@ -18,11 +18,12 @@ function TodoList() {
      * Renders all the todos
      * @returns {JSX.Element} JSX element
      */
-    const renderTodos = () => todos.map((todo) => (
-                <ListItem key={todo.id}>
-                    <TodoItem data={todo} onDataChanged={handleTodoChanged} />
-                </ListItem>
-            ));
+    const renderTodos = () =>
+        todos.map((todo) => (
+            <ListItem key={todo.id}>
+                <TodoItem data={todo} onDataChanged={handleTodoChanged} />
+            </ListItem>
+        ));
 
     /**
      * Updates the todos when a todo has been changed
@@ -32,14 +33,17 @@ function TodoList() {
         const updatedTodos = todos.map((todo) => {
             if (todo.id === todoData.id) {
                 return todoData;
-            } 
-                return todo;
-            
+            }
+            return todo;
         });
 
         setTodos(updatedTodos);
     };
 
+    /**
+     * Updates the todos state when new todo is added
+     * @param {Object} newTodoData New todo data
+     */
     const handleNewTodo = (newTodoData) => {
         const updatedTodos = [...todos, newTodoData];
 

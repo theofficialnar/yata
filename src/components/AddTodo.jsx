@@ -6,13 +6,17 @@ import TextField from '@mui/material/TextField';
 import ListItem from '@mui/material/ListItem';
 import { nanoid } from 'nanoid';
 
-const AddTodo = ({ onSubmitNewTodo }) => {
+function AddTodo({ onSubmitNewTodo }) {
     const [isFormVisible, setFormVisibility] = useState(false);
     const [newTodo, setNewTodo] = useState({
         isDone: false,
         task: '',
     });
 
+    /**
+     * Updates the new todo state when changes are made
+     * @param {Object} evt Event data object
+     */
     const handleTodoChanged = (evt) => {
         const { name } = evt.target;
         const value = name === 'task' ? evt.target.value : evt.target.checked;
@@ -20,21 +24,23 @@ const AddTodo = ({ onSubmitNewTodo }) => {
         setNewTodo({
             ...newTodo,
             [name]: value,
-        })
-    }
+        });
+    };
 
+    /**
+     * Submits the new todo
+     */
     const handleSubmitNewTodo = () => {
         if (newTodo.task === '') {
             setFormVisibility(false);
             return;
-        };
+        }
 
         const todo = {
             ...newTodo,
             id: nanoid(),
         };
 
-        console.log(todo);
         onSubmitNewTodo(todo);
 
         setNewTodo({
@@ -42,8 +48,12 @@ const AddTodo = ({ onSubmitNewTodo }) => {
             task: '',
         });
         setFormVisibility(false);
-    }
+    };
 
+    /**
+     * Renders the text field for adding new todos
+     * @returns {JSX.Element}
+     */
     const renderTextField = () => {
         if (isFormVisible) {
             return (
@@ -61,6 +71,8 @@ const AddTodo = ({ onSubmitNewTodo }) => {
                 </ListItem>
             );
         }
+
+        return null;
     };
 
     return (
@@ -75,6 +87,6 @@ const AddTodo = ({ onSubmitNewTodo }) => {
             </Button>
         </>
     );
-};
+}
 
 export default AddTodo;
