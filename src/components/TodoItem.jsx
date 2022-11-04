@@ -1,36 +1,17 @@
 import Checkbox from '@mui/material/Checkbox';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import InputBase from '@mui/material/InputBase';
+import IconButton from '@mui/material/IconButton';
+import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 
 import { useState, useEffect } from 'react';
 
-const TodoItem = ({ data, onDataChanged }) => {
+function TodoItem({ data, onDataChanged, onDeleteTask }) {
     const [isActive, setIsActive] = useState(false);
     const [todoData, setTodoData] = useState(data);
 
     useEffect(() => {
         onDataChanged(todoData);
     }, [todoData]);
-
-    /**
-     * Renders a textfield or plain text depending on isActive state
-     * @returns {JSX.Element} JSX element
-     */
-    const renderText = () => {
-        return isActive ? (
-            <TextField
-                variant="standard"
-                defaultValue={todoData.task}
-                onBlur={handleTaskChanged}
-                name="task"
-                autoFocus
-                fullWidth
-                placeholder="What's on your mind?"
-            />
-        ) : (
-            <Typography onClick={() => setIsActive(true)}>{todoData.task}</Typography>
-        );
-    };
 
     /**
      * Updates the todo state whenever the task value has been updated
@@ -44,14 +25,41 @@ const TodoItem = ({ data, onDataChanged }) => {
             ...todoData,
             [name]: value,
         });
-        setIsActive(false);
+
+        setTimeout(() => {
+            setIsActive(false);
+        }, 200);
     };
+
+    /**
+     * Renders a textfield or plain text depending on isActive state
+     * @returns {JSX.Element} JSX element
+     */
+    const renderText = () => (
+            <>
+                <InputBase
+                    fullWidth
+                    variant="standard"
+                    defaultValue={todoData.task}
+                    onBlur={handleTaskChanged}
+                    onFocus={() => setIsActive(true)}
+                    name="task"
+                    placeholder="What's on your mind?"
+                    sx={{ borderBottom: isActive ? 2 : 0, borderColor: 'primary.main' }}
+                />
+                {isActive ? (
+                    <IconButton onClick={() => onDeleteTask(todoData.id)}>
+                        <ClearRoundedIcon />
+                    </IconButton>
+                ) : null}
+            </>
+        );
 
     return (
         <>
             <Checkbox name="isDone" onChange={handleTaskChanged} /> {renderText()}
         </>
     );
-};
+}
 
 export default TodoItem;
